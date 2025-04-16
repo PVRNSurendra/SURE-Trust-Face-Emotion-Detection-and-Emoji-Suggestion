@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Image</title>
+</head>
+<body>
+    <h1>Upload an Image for Emotion Detection</h1>
+    <form method="POST" action="/predict_upload" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <input type="submit" value="Upload">
+    </form>
+
+    {% if emotion %}
+        <h2>Predicted Emotion: {{ emotion }}</h2>
+
+        {% if uploaded_image %}
+            <h3>Uploaded Image:</h3>
+            <img src="data:image/jpeg;base64,{{ uploaded_image }}" width="300">
+        {% endif %}
+
+        {% if emoji_path %}
+            <h3>Suggested Emoji:</h3>
+            <img src="{{ emoji_path }}" width="100">
+        {% endif %}
+    {% endif %}
+</body>
+</html>

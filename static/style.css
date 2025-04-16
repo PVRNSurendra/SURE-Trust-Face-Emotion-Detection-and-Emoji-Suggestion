@@ -1,0 +1,27 @@
+/* Reset default list styling */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 30px;
+}
+
+/* Style each list item link */
+ul li {
+    margin: 15px 0;
+}
+
+/* Style the link buttons */
+ul li a {
+    text-decoration: none;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+ul li a:hover {
+    background-color: #45a049;
+}

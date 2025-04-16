@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Capture Picture</title>
+</head>
+<body>
+    <h2>Picture Mode</h2>
+
+    <video id="video" width="600" autoplay></video>
+    <br>
+
+    <canvas id="canvas" width="600" height="450" style="display:none;"></canvas>
+
+    <button onclick="captureAndSend()">Capture & Predict</button>
+
+    <div id="result"></div>
+
+    <br><a href="/">⬅ Back</a>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const resultDiv = document.getElementById('result');
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            });
+
+        function captureAndSend() {
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/jpeg');
+
+            fetch('/predict_picture', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ image: imageData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultDiv.innerHTML = `
+                    <h3>Predicted Emotion: ${data.emotion}</h3>
+                    <img src="${data.emoji_path}" width="100">
+                `;
+            });
+        }
+    </script>
+</body>
+</html>
